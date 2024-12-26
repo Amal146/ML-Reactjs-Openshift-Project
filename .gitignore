@@ -4,3 +4,27 @@ C:\Users\amalj\OneDrive\Desktop\Cloud-Project\my-app\node_modules
 wheat-disease-detection\wheat-env\Lib
 .git
 wheat-disease-detection\wheat-env\Scripts
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+open-shift-test/node_modules/
+open-shift-test/.pnp
+open-shift-test/.pnp.js
+
+# testing
+open-shift-test//coverage
+
+# production
+open-shift-test//build
+
+# misc
+open-shift-test/.DS_Store
+open-shift-test/.env.local
+open-shift-test/.env.development.local
+open-shift-test/.env.test.local
+open-shift-test/.env.production.local
+
+open-shift-test/npm-debug.log*
+open-shift-test/yarn-debug.log*
+open-shift-test/yarn-error.log*
