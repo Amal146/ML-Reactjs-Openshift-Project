@@ -4,8 +4,7 @@ from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 import kagglehub
 
 # Download the latest version of the dataset
-path = kagglehub.dataset_download("kushagra3204/wheat-plant-diseases")
-print("Path to dataset files:", path)
+path =  (r"C:\Users\amalj\OneDrive\Desktop\Cloud-Project\wheat-disease-detection\kagglehub\datasets\kushagra3204\wheat-plant-diseases\versions\6\data")
 
 # Check if the directories exist
 import os

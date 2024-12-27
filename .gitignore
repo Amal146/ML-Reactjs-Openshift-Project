@@ -5,6 +5,8 @@ wheat-disease-detection\wheat-env\Lib
 .git
 wheat-disease-detection\wheat-env\Scripts
 wheat-disease-detection/wheat-env/
+wheat-disease-detection/kagglehub/
+wheat-disease-detection/WheatDiseaseDetection.h5
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
