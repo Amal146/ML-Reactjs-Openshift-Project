@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
 
 const handleFileUpload = async (file, setResults) => {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append("file", file);
 
   try {
-    const response = await fetch('http://localhost:5000/predict', {
-      method: 'POST',
+    const response = await fetch("/predict", {
+      method: "POST",
       body: formData,
     });
 
     if (!response.ok) {
-      throw new Error('Failed to analyze the image');
+      throw new Error("Failed to analyze the image");
     }
 
     const data = await response.json();
     setResults({ class: data.predicted_class, confidence: data.confidence });
   } catch (error) {
     console.error(error);
-    setResults({ error: 'Failed to process the image. Please try again.' });
+    setResults({ error: "Failed to process the image. Please try again." });
   }
 };
 
@@ -35,7 +35,7 @@ function App() {
     if (selectedFile) {
       handleFileUpload(selectedFile, setResults);
     } else {
-      setResults({ error: 'Please select a file before analyzing.' });
+      setResults({ error: "Please select a file before analyzing." });
     }
   };
 
@@ -68,7 +68,8 @@ function App() {
                   <strong>Predicted Class:</strong> {results.class}
                 </p>
                 <p>
-                  <strong>Confidence:</strong> {(results.confidence * 100).toFixed(2)}%
+                  <strong>Confidence:</strong>{" "}
+                  {(results.confidence * 100).toFixed(2)}%
                 </p>
               </div>
             )
@@ -85,4 +86,3 @@ function App() {
 }
 
 export default App;
-
