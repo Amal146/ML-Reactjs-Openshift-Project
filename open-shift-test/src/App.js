@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import "./App.css";
 
+const backendPort = 5000;
+const backendURL = `${window.location.protocol}//${window.location.hostname}:${backendPort}/predict`;
+
+
 const handleFileUpload = async (file, setResults) => {
   const formData = new FormData();
   formData.append("file", file);
-
   try {
-    const response = await fetch("/predict", {
+    const response = await fetch(backendURL, {
       method: "POST",
       body: formData,
     });

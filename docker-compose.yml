@@ -1,0 +1,23 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: ./open-shift-test
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./wheat-disease-detection
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
