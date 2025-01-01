@@ -26,6 +26,10 @@ class_labels = [
     'Spot Blotch', 'Ergot', 'Black Chaff', 'Loose Smut'
 ]
 
+@app.route('/')
+def hello_world():
+    return 'Hello World'
+
 
 @app.route('/predict', methods=['POST'])
 def predict():
