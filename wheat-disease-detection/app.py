@@ -16,7 +16,8 @@ model_path = 'WheatDiseaseDetection.h5'
 if not os.path.exists(model_path):
     raise FileNotFoundError(f"Model file not found: {model_path}")
 
-model = load_model(model_path)
+model = load_model(model_path, compile=False)
+
 
 # Update class labels with your dataset's actual class names
 class_labels = [
