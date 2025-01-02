@@ -13,36 +13,60 @@ body {
 }
 
 .app-header {
-  background-color: #2c3e50;
+  background-color: #335b33c7;
   color: white;
   text-align: center;
   padding: 20px;
 }
 
 .app-header h1 {
+  font-size: 62pt;
+  font-style: italic;
   margin: 0;
 }
-
+.app-header p {
+  font-size: 18pt;
+  margin: 0;
+}
+#video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9; 
+  z-index: -1; 
+}
 .app-main {
-  flex: 1;
-  padding: 20px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
 }
 
 .upload-section {
+  width: 100%;
+  height: 400px;
+  align-items: center;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.562);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
 }
 
+
+
 .file-input {
+  font-size: larger;
   display: block;
   margin-bottom: 10px;
   padding: 10px;
 }
 
 .upload-button {
-  background-color: #3498db;
+  font-size: xx-large;
+  background-color: #d0db34;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -51,17 +75,17 @@ body {
 }
 
 .upload-button:hover {
-  background-color: #2980b9;
+  background-color: #8eb929ba;
 }
 
 .results-section {
   width: 100%;
-  max-width: 600px;
+  height: 200px;
+  font-size: x-large;
   text-align: center;
-  background-color: white;
+  background-color: rgb(255, 255, 255,  0.562);
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
 }
 
 .results-section h2 {
@@ -69,8 +93,70 @@ body {
 }
 
 .app-footer {
-  background-color: #34495e;
+  background-color: #335b33c7;
   color: white;
   text-align: center;
   padding: 10px;
+}
+
+.diseases-table {
+  background-color:  rgb(255, 255, 255,  0.562); 
+  padding: 20px;
+  border-radius: 8px; /* Optional: Adds rounded corners to the table section */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds subtle shadow */
+}
+
+.table-title {
+  text-align: center; /* Centers the title */
+  margin-bottom: 20px;
+  color: #8eb929ba;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+td {
+  border-bottom: 1px solid #ddd;
+}
+
+ul {
+  padding-left: 20px; /* Adds space to the left of the list */
+  margin: 0;
+}
+
+ul li {
+  margin-bottom: 5px;
+}
+
+.left-column {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.right-column {
+  flex: 1;
+  padding-left: 20px;
+}
+
+
+.image-preview {
+  margin-bottom: 20px;
+}
+
+.preview-image {
+  width: 200px;;
+  height: 200px;
+  margin: 10px;
+  border-radius: 8px;
 }

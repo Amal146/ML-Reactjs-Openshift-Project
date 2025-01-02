@@ -14,7 +14,7 @@ CORS(app)
 # Load the trained model
 model_path = 'WheatDiseaseDetection.h5'
 if not os.path.exists(model_path):
-    raise FileNotFoundError(f"Model file not found: {model_path}")
+     raise FileNotFoundError(f"Model file not found: {model_path}")
 
 model = load_model(model_path, compile=False)
 
@@ -26,10 +26,6 @@ class_labels = [
     'Wheat Streak Mosaic Virus', 'Karnal Bunt', 'Yellow Rust',
     'Spot Blotch', 'Ergot', 'Black Chaff', 'Loose Smut'
 ]
-
-@app.route('/')
-def hello_world():
-    return 'Hello World'
 
 
 @app.route('/predict', methods=['POST'])
