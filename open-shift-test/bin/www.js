@@ -1,4 +1,4 @@
-const app = require('../app'); // Link to app.js
+const app = require('../backend/app'); // Link to app.js
 const http = require('http');
 
 const port = normalizePort(process.env.PORT || '3000');
