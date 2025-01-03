@@ -51,7 +51,7 @@ function App() {
 
   useEffect(() => {
     // Fetch data from the backend
-    fetch("http://localhost:8080/") // Replace with your backend URL
+    fetch("http://localhost:3000/") 
       .then((response) => response.json())
       .then((data) => {
         setDiseases(data.diseases);

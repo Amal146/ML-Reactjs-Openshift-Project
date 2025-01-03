@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { pgconn } = require('../db/config');
 
-
 /* Show home page. */
 router.get('/', function(req, res) {
   // We first check if the 'wheat_diseases' table exists
