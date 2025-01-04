@@ -1,29 +1,37 @@
- # Stage 1: Build the React app
- FROM node:14 as build
+# Step 1: Build React App
+FROM node:16 AS build
 
- WORKDIR /app
+WORKDIR /app
 
-# # Copy package.json and package-lock.json (if available)
- COPY package.json package-lock.json ./
+# Install dependencies
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm install
 
-# # Install dependencies
- RUN npm install
+# Copy source files
+COPY . .
 
-# # Copy the rest of the application code
- COPY . .
+# Build React app
+RUN npm run build
 
-# # Build the React app
- RUN npm run build
+# Step 2: Setup Node.js Backend
+FROM node:16 AS backend
 
-# # Stage 2: Serve the React app using Nginx
- FROM nginx:alpine
+WORKDIR /app
 
-# # Copy the build output to the Nginx HTML directory
- COPY --from=build /app/build /usr/share/nginx/html
+# Install backend dependencies
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm install
 
-# # Expose port 80
- EXPOSE 80
+# Copy React build output
+COPY --from=build /app/build /app/build
 
-# # Start Nginx
- CMD ["nginx", "-g", "daemon off;"]
+# Copy backend files
+COPY . .
 
+# Expose port (3000 is common for React and Node apps)
+EXPOSE 3000
+
+# Start the Node.js backend
+CMD ["node", "bin/www.js"]
