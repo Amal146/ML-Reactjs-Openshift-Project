@@ -1,37 +1,25 @@
-# Step 1: Build React App
-FROM node:16 AS build
+# Stage 1: Build React App
+FROM node:16 as build
 
 WORKDIR /app
 
-# Install dependencies
-COPY package.json ./
-COPY package-lock.json ./
+COPY package*.json ./
 RUN npm install
 
-# Copy source files
-COPY . .
-
-# Build React app
+COPY . ./
 RUN npm run build
 
-# Step 2: Setup Node.js Backend
-FROM node:16 AS backend
+# Stage 2: Serve React App and Run Node.js Server
+FROM node:16
 
 WORKDIR /app
 
-# Install backend dependencies
-COPY package.json ./
-COPY package-lock.json ./
+COPY package*.json ./
 RUN npm install
 
-# Copy React build output
-COPY --from=build /app/build /app/build
+COPY . ./
+COPY --from=build /app/build ./build
 
-# Copy backend files
-COPY . .
-
-# Expose port (3000 is common for React and Node apps)
 EXPOSE 3000
 
-# Start the Node.js backend
-CMD ["node", "bin/www.js"]
+CMD ["concurrently", "set PORT=3000 && react-scripts start", "node bin/www.js"]
