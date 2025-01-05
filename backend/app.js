@@ -3,12 +3,9 @@ const path = require('path');
 const indexRouter = require('./routes/index.js'); 
 var cookieParser = require('cookie-parser');
 
-const cors = require('cors');
-
 
 const app = express();
-// Enable CORS for all routes
-app.use(cors());
+
 
 // Middleware
 app.use(express.json());
