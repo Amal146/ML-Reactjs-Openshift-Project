@@ -1,25 +1,31 @@
-# Stage 1: Build React App
-FROM node:16 as build
+# # Stage 1: Build the React app
+FROM node:14 as build
 
 WORKDIR /app
 
-COPY package*.json ./
+# Copy package.json and package-lock.json (if available)
+COPY package.json package-lock.json ./
+
+# Install dependencies
+
 RUN npm install
 
-COPY . ./
+# Copy the rest of the application code
+
+COPY . .
+
+# Build the React app
 RUN npm run build
 
-# Stage 2: Serve React App and Run Node.js Server
-FROM node:16
+# Stage 2: Serve the React app using Nginx
+FROM nginx:alpine
 
-WORKDIR /app
+# Copy the build output to the Nginx HTML directory
+COPY --from=build /app/build /usr/share/nginx/html
 
-COPY package*.json ./
-RUN npm install
+# Expose port 80
 
-COPY . ./
-COPY --from=build /app/build ./build
+EXPOSE 80
 
-EXPOSE 3000
-
-CMD ["concurrently", "set PORT=3000 && react-scripts start", "node bin/www.js"]
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]

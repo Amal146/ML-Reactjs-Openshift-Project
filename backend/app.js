@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const indexRouter = require('./routes/index.js'); 
+var cookieParser = require('cookie-parser');
+
 const cors = require('cors');
 
 
@@ -11,6 +13,7 @@ app.use(cors());
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 // Use the router for API routes
 app.use('/', indexRouter);
