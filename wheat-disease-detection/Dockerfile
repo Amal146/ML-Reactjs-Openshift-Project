@@ -1,5 +1,6 @@
 FROM python:3.10-slim
 
+ENV TF_ENABLE_ONEDNN_OPTS=0
 
 RUN mkdir /app
 WORKDIR /app

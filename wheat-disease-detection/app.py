@@ -7,7 +7,9 @@ import tensorflow as tf
 import os
 from flask_cors import CORS
 
+# Initialize Flask app
 app = Flask(__name__)
+
 # Define allowed origins (frontend domain)
 allowed_origins = [
     'http://front-maythistime.apps.eu46r.prod.ole.redhat.com'
@@ -23,18 +25,21 @@ def custom_cors(origin):
 CORS(app, origins=custom_cors, supports_credentials=True)
 
 
-model_path_h5 = 'WheatDiseaseDetection.h5'  # Update with your H5 model path
-model_path_saved = 'WheatDiseaseDetection_SavedModel.keras'  # Update with your SavedModel path
+# Paths for model files
+model_path_h5 = 'WheatDiseaseDetection.h5'
+model_path_saved = 'WheatDiseaseDetection_SavedModel.keras'
 
-# Load the model in SavedModel format if the .h5 file fails
+# Load model
 try:
     model = load_model(model_path_h5, compile=False)
+    print(f"Loaded model from {model_path_h5}.")
 except OSError:
-    print(f"Failed to load {model_path_h5}. Attempting to load as SavedModel.")
+    print(f"Failed to load {model_path_h5}. Attempting to load SavedModel format.")
     try:
         model = tf.keras.models.load_model(model_path_saved)
+        print(f"Loaded model from {model_path_saved}.")
     except Exception as e:
-        print(f"Failed to load SavedModel format: {str(e)}")
+        print(f"Failed to load model in any format: {str(e)}")
         raise e
 
 # Update class labels with your dataset's actual class names
@@ -53,8 +58,8 @@ def predict():
     file = request.files['file']
 
     try:
-        # Convert the uploaded file to a BytesIO object
-        img = load_img(BytesIO(file.read()), target_size=(255, 255))  # Ensure the target size matches the model's input size
+        # Preprocess the image
+        img = load_img(BytesIO(file.read()), target_size=(255, 255))  # Adjust target size based on model input
         img_array = img_to_array(img) / 255.0  # Normalize pixel values to [0, 1]
         img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
 
@@ -75,4 +80,3 @@ def predict():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
-
