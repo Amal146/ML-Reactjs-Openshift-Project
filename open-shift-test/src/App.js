@@ -3,7 +3,7 @@ import "./App.css";
 
 
 const hostname = window.location.hostname;
-const serverAddress = window.location.origin;
+const serverAddress = window.location.href;
 const backendPort = 5000;
 const handleFileUpload = async (file, setResults) => {
   const formData = new FormData();
