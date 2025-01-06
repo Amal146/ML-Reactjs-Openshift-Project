@@ -24,7 +24,7 @@ CORS(app, origins=custom_cors, supports_credentials=True)
 
 
 model_path_h5 = 'WheatDiseaseDetection.h5'  # Update with your H5 model path
-model_path_saved = 'WheatDiseaseDetection_SavedModel'  # Update with your SavedModel path
+model_path_saved = 'WheatDiseaseDetection_SavedModel.keras'  # Update with your SavedModel path
 
 # Load the model in SavedModel format if the .h5 file fails
 try:

@@ -15,6 +15,9 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
+# Copy the model files into the container
+COPY WheatDiseaseDetection.h5 /app/
+COPY WheatDiseaseDetection_SavedModel.keras /app/
 
 EXPOSE 8080
 
