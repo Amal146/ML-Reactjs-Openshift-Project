@@ -22,13 +22,20 @@ def custom_cors(origin):
 # Enable CORS for all routes with custom logic
 CORS(app, origins=custom_cors, supports_credentials=True)
 
-model_path = 'WheatDiseaseDetection.h5'  # Update with your model path
+
+model_path_h5 = 'WheatDiseaseDetection.h5'  # Update with your H5 model path
+model_path_saved = 'WheatDiseaseDetection_SavedModel'  # Update with your SavedModel path
+
 # Load the model in SavedModel format if the .h5 file fails
 try:
-    model = load_model(model_path, compile=False)
+    model = load_model(model_path_h5, compile=False)
 except OSError:
-    print(f"Failed to load {model_path}. Attempting to load as SavedModel.")
-    model = tf.keras.models.load_model('WheatDiseaseDetection.h5')  # Replace with your SavedModel path
+    print(f"Failed to load {model_path_h5}. Attempting to load as SavedModel.")
+    try:
+        model = tf.keras.models.load_model(model_path_saved)
+    except Exception as e:
+        print(f"Failed to load SavedModel format: {str(e)}")
+        raise e
 
 # Update class labels with your dataset's actual class names
 class_labels = [
@@ -37,7 +44,6 @@ class_labels = [
     'Wheat Streak Mosaic Virus', 'Karnal Bunt', 'Yellow Rust',
     'Spot Blotch', 'Ergot', 'Black Chaff', 'Loose Smut'
 ]
-
 
 @app.route('/predict', methods=['POST'])
 def predict():
