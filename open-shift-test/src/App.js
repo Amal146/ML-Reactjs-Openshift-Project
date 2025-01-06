@@ -166,7 +166,7 @@ function App() {
 
       <footer className="app-footer">
       <p>Powered by Machine Learning</p>
-      <p>
+      <p> 
         Running on host: {hostname} ({serverAddress})
       </p>
     </footer>
