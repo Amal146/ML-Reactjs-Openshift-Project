@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 
+
+const hostname = window.location.hostname;
+const serverAddress = window.location.origin;
 const backendPort = 5000;
 const handleFileUpload = async (file, setResults) => {
   const formData = new FormData();
@@ -162,8 +165,11 @@ function App() {
       </main>
 
       <footer className="app-footer">
-        <p>Powered by Machine Learning</p>
-      </footer>
+      <p>Powered by Machine Learning</p>
+      <p>
+        Running on host: {hostname} ({serverAddress})
+      </p>
+    </footer>
     </div>
   );
 }
