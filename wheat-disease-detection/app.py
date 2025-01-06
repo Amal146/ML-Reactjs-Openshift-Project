@@ -4,45 +4,37 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 import numpy as np
 import tensorflow as tf
-import os
 from flask_cors import CORS
+import logging
 
 # Initialize Flask app
 app = Flask(__name__)
 
-# Define allowed origins (frontend domain)
-allowed_origins = [
-    'http://front-maythistime.apps.eu46r.prod.ole.redhat.com'
-]
+# Allowed origins for CORS
+allowed_origins = ['http://front-maythistime.apps.eu46r.prod.ole.redhat.com']
+CORS(app, resources={r"/*": {"origins": allowed_origins}}, supports_credentials=True)
 
-# Custom CORS configuration
-def custom_cors(origin):
-    if origin in allowed_origins or origin is None:
-        return True
-    return False
-
-# Enable CORS for all routes with custom logic
-CORS(app, origins=custom_cors, supports_credentials=True)
-
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Paths for model files
-model_path_h5 = 'WheatDiseaseDetection.h5'
-model_path_saved = 'WheatDiseaseDetection_SavedModel.keras'
+model_path = 'WheatDiseaseDetection.h5'
 
 # Load model
 try:
-    model = load_model(model_path_h5, compile=False)
-    print(f"Loaded model from {model_path_h5}.")
+    model = load_model(model_path, compile=False)
+    logger.info(f"Loaded model from {model_path}.")
 except OSError:
-    print(f"Failed to load {model_path_h5}. Attempting to load SavedModel format.")
+    logger.error(f"Failed to load {model_path}. Attempting to load SavedModel format.")
     try:
-        model = tf.keras.models.load_model(model_path_saved)
-        print(f"Loaded model from {model_path_saved}.")
+        model = tf.keras.models.load_model('WheatDiseaseDetection_Converted.h5')
+        logger.info("Loaded model from SavedModel format.")
     except Exception as e:
-        print(f"Failed to load model in any format: {str(e)}")
+        logger.error(f"Failed to load model in any format: {str(e)}")
         raise e
 
-# Update class labels with your dataset's actual class names
+# Class labels
 class_labels = [
     'Healthy', 'Leaf Rust', 'Stem Rust', 'Stripe Rust',
     'Powdery Mildew', 'Septoria', 'Tan Spot', 'Bacterial Blight',
@@ -50,22 +42,24 @@ class_labels = [
     'Spot Blotch', 'Ergot', 'Black Chaff', 'Loose Smut'
 ]
 
+
+@app.route("/")
+def hello_world():
+    return "Hello, World!"
+
 @app.route('/predict', methods=['POST'])
 def predict():
     if 'file' not in request.files:
         return jsonify({'error': 'No file provided'}), 400
 
     file = request.files['file']
-
     try:
-        # Preprocess the image
-        img = load_img(BytesIO(file.read()), target_size=(255, 255))  # Adjust target size based on model input
-        img_array = img_to_array(img) / 255.0  # Normalize pixel values to [0, 1]
-        img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+        img = load_img(BytesIO(file.read()), target_size=(255, 255))  # Adjust target size as needed
+        img_array = img_to_array(img) / 255.0
+        img_array = np.expand_dims(img_array, axis=0)
 
-        # Make predictions
         predictions = model.predict(img_array)
-        predicted_class = class_labels[np.argmax(predictions)]  # Get class with highest probability
+        predicted_class = class_labels[np.argmax(predictions)]
         confidence = np.max(predictions)
 
         return jsonify({
@@ -74,8 +68,7 @@ def predict():
         })
 
     except Exception as e:
-        # Log the exception to help debug
-        print(f"Error during prediction: {str(e)}")
+        logger.error("Error during prediction", exc_info=True)
         return jsonify({'error': f"Internal server error: {str(e)}"}), 500
 
 if __name__ == '__main__':
