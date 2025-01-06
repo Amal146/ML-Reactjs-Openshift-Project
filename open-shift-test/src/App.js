@@ -115,7 +115,7 @@ function App() {
               ) : (
                 <div>
                   <p>
-                    <strong>Predicted Class:</strong> {results.class}
+                    <strong>Predicted Disease:</strong> {results.class}
                   </p>
                   <p>
                     <strong>Confidence:</strong>{" "}
