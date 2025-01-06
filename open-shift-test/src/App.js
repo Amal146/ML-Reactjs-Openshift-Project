@@ -25,6 +25,74 @@ const handleFileUpload = async (file, setResults) => {
     setResults({ error: "Failed to process the image. Please try again." });
   }
 };
+const fetchWeatherData = async (city) => {
+  const apiKey = "9818a0c6454076d8184c24772aee1252"; // Replace with your API key
+  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+  
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch weather data:", error);
+  }
+};
+
+
+function WeatherSection() {
+  const [weather, setWeather] = useState(null);
+  const [wheatState, setWheatState] = useState("Loading...");
+  const [currentDate, setCurrentDate] = useState("");
+
+  useEffect(() => {
+    // Fetch today's date
+    const today = new Date();
+    setCurrentDate(today.toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }));
+
+    // Fetch weather data
+    const fetchWeather = async () => {
+      const data = await fetchWeatherData("Tunis"); // Replace with your preferred city
+      setWeather(data);
+
+      if (data) {
+        const temp = data.main.temp;
+        const humidity = data.main.humidity;
+
+        // Determine wheat state based on weather
+        if (temp >= 15 && temp <= 25 && humidity >= 50 && humidity <= 70) {
+          setWheatState("Healthy Growth");
+        } else if (temp > 30 || humidity < 30) {
+          setWheatState("Risk of Disease");
+        } else {
+          setWheatState("Mild Stress");
+        }
+      }
+    };
+
+    fetchWeather();
+  }, []);
+ return (
+    <div className="weather-section">
+      <h2>🌤️ Weather Analysis</h2>
+      <p><strong>Today's Date:</strong> {currentDate}</p>
+      {weather ? (
+        <div>
+          <p><strong>City:</strong> {weather.name}</p>
+          <p><strong>Temperature:</strong> {weather.main.temp} °C</p>
+          <p><strong>Humidity:</strong> {weather.main.humidity} %</p>
+          <p><strong>Wheat State:</strong> {wheatState}</p>
+        </div>
+      ) : (
+        <p>Loading weather data...</p>
+      )}
+    </div>
+  );
+}
 
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -81,6 +149,7 @@ function App() {
           Your browser does not support the video tag.
         </video>
         <div className="left-column">
+          <WeatherSection />
           <div className="upload-section">
             {/* Image Display */}
             {imagePreview && (
