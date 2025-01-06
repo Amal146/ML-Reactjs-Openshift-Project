@@ -23,16 +23,11 @@ model_path = 'WheatDiseaseDetection.h5'
 
 # Load model
 try:
-    model = load_model(model_path, compile=False)
+    model = tf.keras.models.load_model(model_path)
     logger.info(f"Loaded model from {model_path}.")
 except OSError:
     logger.error(f"Failed to load {model_path}. Attempting to load SavedModel format.")
-    try:
-        model = tf.keras.models.load_model('WheatDiseaseDetection_Converted.h5')
-        logger.info("Loaded model from SavedModel format.")
-    except Exception as e:
-        logger.error(f"Failed to load model in any format: {str(e)}")
-        raise e
+    
 
 # Class labels
 class_labels = [
