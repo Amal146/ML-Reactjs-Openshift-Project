@@ -9,7 +9,7 @@ const handleFileUpload = async (file, setResults) => {
   const formData = new FormData();
   formData.append("file", file);
   try {
-    const response = await fetch("http://127.0.0.1:5000/predict", {
+    const response = await fetch("http://py-maythistime.apps.eu46r.prod.ole.redhat.com/predict", {
       method: "POST",
       body: formData,
     });
