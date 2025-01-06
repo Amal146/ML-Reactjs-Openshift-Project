@@ -8,9 +8,20 @@ import os
 from flask_cors import CORS
 
 app = Flask(__name__)
+# Define allowed origins (frontend domain)
+allowed_origins = [
+    'http://front-maythistime.apps.eu46r.prod.ole.redhat.com'
+]
 
-# Enable CORS for all routes
-CORS(app)
+# Custom CORS configuration
+def custom_cors(origin):
+    if origin in allowed_origins or origin is None:
+        return True
+    return False
+
+# Enable CORS for all routes with custom logic
+CORS(app, origins=custom_cors, supports_credentials=True)
+
 model_path = 'WheatDiseaseDetection.h5'  # Update with your model path
 # Load the model in SavedModel format if the .h5 file fails
 try:
