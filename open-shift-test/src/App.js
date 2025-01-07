@@ -28,13 +28,14 @@ const handleFileUpload = async (file, setResults) => {
   }
 };
 const fetchWeatherData = async (city) => {
-  const apiKey = process.env.OWM_API_KEY || "9818a0c6454076d8184c24772aee1252"; // Replace with your actual API key or use the environment variable
-  const units = process.env.UNITS || "metric"; // Fetch the units from the environment variable (ConfigMap in OpenShift)
+  const apiKey = process.env.OWM_API_KEY || "9818a0c6454076d8184c24772aee1252"; 
+  const units = process.env.UNITS || "metric"; 
   const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${apiKey}`;
 
   try {
     const response = await fetch(apiUrl);
     const data = await response.json();
+    console.log("Weather unit:", units);
     return data;
   } catch (error) {
     console.error("Failed to fetch weather data:", error);
