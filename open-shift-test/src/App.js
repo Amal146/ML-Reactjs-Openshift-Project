@@ -39,7 +39,7 @@ const fetchWeatherData = async (city) => {
     const response = await fetch(apiUrl);
     const data = await response.json();
     console.log("Weather unit:", process.env.UNITS);
-    return data;
+    return data; 
   } catch (error) {
     console.error("Failed to fetch weather data:", error);
     throw error; // Ensure the error is thrown so it can be caught and handled properly
