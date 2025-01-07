@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 
-
 const hostname = window.location.hostname;
 const serverAddress = window.location.href;
 const backendPort = 5000;
@@ -9,10 +8,13 @@ const handleFileUpload = async (file, setResults) => {
   const formData = new FormData();
   formData.append("file", file);
   try {
-    const response = await fetch("http://py-maythistime.apps.eu46r.prod.ole.redhat.com/predict", {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      "http://py-maythistime.apps.eu46r.prod.ole.redhat.com/predict",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Failed to analyze the image");
@@ -26,10 +28,10 @@ const handleFileUpload = async (file, setResults) => {
   }
 };
 const fetchWeatherData = async (city) => {
-  const apiKey = process.env.OWM_API_KEY || '9818a0c6454076d8184c24772aee1252'; // Replace with your actual API key or use the environment variable
-  const units = process.env.UNITS || 'metric'; // Fetch the units from the environment variable (ConfigMap in OpenShift)
+  const apiKey = process.env.OWM_API_KEY || "9818a0c6454076d8184c24772aee1252"; // Replace with your actual API key or use the environment variable
+  const units = process.env.UNITS || "metric"; // Fetch the units from the environment variable (ConfigMap in OpenShift)
   const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${apiKey}`;
-  
+
   try {
     const response = await fetch(apiUrl);
     const data = await response.json();
@@ -40,7 +42,6 @@ const fetchWeatherData = async (city) => {
   }
 };
 
-
 function WeatherSection() {
   const [weather, setWeather] = useState(null);
   const [wheatState, setWheatState] = useState("Loading...");
@@ -49,12 +50,14 @@ function WeatherSection() {
   useEffect(() => {
     // Fetch today's date
     const today = new Date();
-    setCurrentDate(today.toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }));
+    setCurrentDate(
+      today.toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    );
 
     // Fetch weather data
     const fetchWeather = async () => {
@@ -78,16 +81,26 @@ function WeatherSection() {
 
     fetchWeather();
   }, []);
- return (
+  return (
     <div className="weather-section">
       <h2>🌤️ Weather Analysis</h2>
-      <p><strong>Today's Date:</strong> {currentDate}</p>
+      <p>
+        <strong>Today's Date:</strong> {currentDate}
+      </p>
       {weather ? (
         <div>
-          <p><strong>City:</strong> {weather.name}</p>
-          <p><strong>Temperature:</strong> {weather.main.temp} °C</p>
-          <p><strong>Humidity:</strong> {weather.main.humidity} %</p>
-          <p><strong>Wheat State:</strong> {wheatState}</p>
+          <p>
+            <strong>City:</strong> {weather.name}
+          </p>
+          <p>
+            <strong>Temperature:</strong> {weather.main.temp} °C
+          </p>
+          <p>
+            <strong>Humidity:</strong> {weather.main.humidity} %
+          </p>
+          <p>
+            <strong>Wheat State:</strong> {wheatState}
+          </p>
         </div>
       ) : (
         <p>Loading weather data...</p>
@@ -124,7 +137,7 @@ function App() {
 
   useEffect(() => {
     // Fetch data from the backend
-    fetch("http://backend01-maythistime.apps.eu46r.prod.ole.redhat.com/") 
+    fetch("http://backend01-maythistime.apps.eu46r.prod.ole.redhat.com/")
       .then((response) => response.json())
       .then((data) => {
         setDiseases(data.diseases);
@@ -140,7 +153,6 @@ function App() {
     <div className="app-container">
       <header className="app-header">
         <h1>🌾Wheat Disease Detection🌾</h1>
-        <p>Upload an image to detect wheat plant diseases</p>
       </header>
       <main className="app-main">
         <video autoPlay loop muted id="video-background">
@@ -153,6 +165,7 @@ function App() {
         <div className="left-column">
           <WeatherSection />
           <div className="upload-section">
+           <h2> ⬇️ Upload an image to detect wheat plant diseases</h2>
             {/* Image Display */}
             {imagePreview && (
               <div className="image-preview">
@@ -179,7 +192,7 @@ function App() {
           </div>
 
           <div className="results-section">
-            <h2>Results</h2>
+            <h2> 📊 Results</h2>
             {results ? (
               results.error ? (
                 <p className="error-message">{results.error}</p>
@@ -200,9 +213,29 @@ function App() {
           </div>
         </div>
         <div className="right-column">
+          {/* Image Section */}
+          <div className="image-section">
+            <h2> 🌱 Wheat Growth Cycle</h2>
+            <img
+              src="https://www.researchgate.net/publication/348914371/figure/fig1/AS:11431281212007549@1702521204173/The-growth-cycle-of-winter-wheat-represented-by-the-time-series-of-remotely-sensed.tif"
+              alt="The growth cycle of winter wheat"
+              className="wheat-growth-cycle-image"
+            />
+            <p className="image-source">
+              Source:{" "}
+              <a
+                href="https://www.researchgate.net/publication/348914371"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ResearchGate
+              </a>
+            </p>
+          </div>
+
           {/* Diseases Table */}
           <div className="diseases-table">
-            <h2 className="table-title">Wheat Disease Symptoms</h2>
+            <h2 className="table-title"> 🌾 Wheat Disease Symptoms</h2>
             <table>
               <thead>
                 <tr>
@@ -236,11 +269,11 @@ function App() {
       </main>
 
       <footer className="app-footer">
-      <p>Powered by Machine Learning</p>
-      <p> 
-        Running on host: {hostname} ({serverAddress})
-      </p>
-    </footer>
+        <p>Powered by Machine Learning</p>
+        <p>
+          Running on host: {hostname} ({serverAddress})
+        </p>
+      </footer>
     </div>
   );
 }
