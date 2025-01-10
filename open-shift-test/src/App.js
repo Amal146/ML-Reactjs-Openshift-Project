@@ -6,12 +6,14 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI("AIzaSyAd1ZtKcvtXLRywmTsvgT8HpM5tjTV2AJ4"); // Replace with your actual API key
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-console.log(window.location.pathname);
-console.log(window.location.origin);
-console.log(window.location.host);
-console.log(window.location.href);
-console.log(window.location)
+
 console.log(process.env.REACT_APP_UNITS);
+
+//get openshift podname and address
+const podName = serverAddress.split("/").pop();
+console.log(podName);
+const podAddress = serverAddress + "/api/v1/namespaces/default/pods/" + podName;
+console.log(podAddress);
 
 function WheatChatbot() {
   const [userMessage, setUserMessage] = useState("");
