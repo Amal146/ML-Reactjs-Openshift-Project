@@ -101,7 +101,8 @@ const handleFileUpload = async (file, setResults) => {
   }
 };
 const fetchWeatherData = async (city) => {
-  console.log(u);
+  console.log(process.env.OWM_API_KEY);
+  console.log(process.env.UNITS);
   const apiKey = window.OWM_API_KEY || "9818a0c6454076d8184c24772aee1252";
   const units = window.UNITS || "metric";
   u = units;
@@ -110,7 +111,6 @@ const fetchWeatherData = async (city) => {
   try {
     const response = await fetch(apiUrl);
     const data = await response.json();
-    console.log("Weather unit:", window.UNITS);
     return data;
   } catch (error) {
     console.error("Failed to fetch weather data:", error);
