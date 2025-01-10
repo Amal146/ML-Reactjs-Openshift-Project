@@ -1,10 +1,82 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const genAI = new GoogleGenerativeAI("AIzaSyAd1ZtKcvtXLRywmTsvgT8HpM5tjTV2AJ4"); // Replace with your actual API key
+const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+function WheatChatbot() {
+  const [userMessage, setUserMessage] = useState("");
+  const [botResponse, setBotResponse] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleUserMessageChange = (event) => {
+    setUserMessage(event.target.value);
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      const context =
+        "You are a chatbot specializing in wheat agriculture. Answer only questions related to wheat diseases, wheat care, or providing help to wheat farmers. If the question isn't related to wheat agriculture, politely say you can't answer.";
+
+      const chat = model.startChat({
+        history: [
+          {
+            role: "user",
+            parts: [{ text: context }],
+          },
+          {
+            role: "model",
+            parts: [
+              { text: "Great. What would you like to know?" },
+            ],
+          },
+        ],
+      });
+
+      let result = await chat.sendMessageStream(userMessage);
+      let fullResponse = "";
+
+      for await (const chunk of result.stream) {
+        fullResponse += chunk.text();
+      }
+
+      setBotResponse(fullResponse);
+    } catch (error) {
+      console.error("Error fetching response:", error);
+      setBotResponse("Sorry, there was an error processing your request.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div>
+      <div style={{ marginBottom: "1em", whiteSpace: "pre-wrap" }}>
+        {botResponse}
+      </div>
+      <TextField
+        label="Ask about wheat"
+        value={userMessage}
+        onChange={handleUserMessageChange}
+        fullWidth
+        variant="outlined"
+        margin="normal"
+      />
+      <Button variant="contained" onClick={handleSubmit} disabled={loading}>
+        {loading ? "Thinking..." : "Ask"}
+      </Button>
+    </div>
+  );
+}
 
 const hostname = window.location.hostname;
 const serverAddress = window.location.href;
 const backendPort = 5000;
-var u = process.env.UNITS; 
+var u = process.env.UNITS;
 const handleFileUpload = async (file, setResults) => {
   const formData = new FormData();
   formData.append("file", file);
@@ -34,12 +106,12 @@ const fetchWeatherData = async (city) => {
   const units = process.env.UNITS || "metric";
   u = units;
   const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${apiKey}`;
- 
+
   try {
     const response = await fetch(apiUrl);
     const data = await response.json();
     console.log("Weather unit:", process.env.UNITS);
-    return data; 
+    return data;
   } catch (error) {
     console.error("Failed to fetch weather data:", error);
     throw error; // Ensure the error is thrown so it can be caught and handled properly
@@ -216,6 +288,10 @@ function App() {
               <p>No results yet. Upload an image to start the analysis.</p>
             )}
           </div>
+          <div className="chatbot-section">
+            <h1> 🤖 Wheat Agriculture Chatbot</h1>
+            <WheatChatbot />
+          </div>
         </div>
         <div className="right-column">
           {/* Image Section */}
@@ -270,6 +346,7 @@ function App() {
               </tbody>
             </table>
           </div>
+          
         </div>
       </main>
 

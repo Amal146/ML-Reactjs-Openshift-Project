@@ -213,3 +213,15 @@ ul li {
 .image-source a:hover {
   text-decoration: underline;
 }
+
+
+
+.chatbot-section {
+  background-color:  rgb(255, 255, 255,  0.562); 
+  padding: 5px;
+  margin-top: 10px;
+  width: 100%;
+  border-radius: 8px; /* Optional: Adds rounded corners to the table section */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds subtle shadow */
+  
+}
