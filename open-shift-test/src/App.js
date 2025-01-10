@@ -6,9 +6,10 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI("AIzaSyAd1ZtKcvtXLRywmTsvgT8HpM5tjTV2AJ4"); // Replace with your actual API key
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-console.log(process.env.OWM_API_KEY);
-console.log(process.env.REACT_APP_UNITS);
+const os = require("os");
 
+const hostName = os.hostname();
+console.log("Host Name: ", hostName);
 function WheatChatbot() {
   const [userMessage, setUserMessage] = useState("");
   const [botResponse, setBotResponse] = useState("");
