@@ -6,6 +6,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI("AIzaSyAd1ZtKcvtXLRywmTsvgT8HpM5tjTV2AJ4"); // Replace with your actual API key
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+console.log(process.env.OWM_API_KEY);
+console.log(process.env.UNITS);
 
 function WheatChatbot() {
   const [userMessage, setUserMessage] = useState("");
@@ -101,8 +103,7 @@ const handleFileUpload = async (file, setResults) => {
   }
 };
 const fetchWeatherData = async (city) => {
-  console.log(process.env.OWM_API_KEY);
-  console.log(process.env.UNITS);
+  
   const apiKey = window.OWM_API_KEY || "9818a0c6454076d8184c24772aee1252";
   const units = window.UNITS || "metric";
   u = units;
