@@ -7,7 +7,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 const genAI = new GoogleGenerativeAI("AIzaSyAd1ZtKcvtXLRywmTsvgT8HpM5tjTV2AJ4"); // Replace with your actual API key
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 console.log(process.env.OWM_API_KEY);
-console.log(process.env.UNITS);
+console.log(process.env.REACT_APP_UNITS);
 
 function WheatChatbot() {
   const [userMessage, setUserMessage] = useState("");
@@ -78,7 +78,7 @@ function WheatChatbot() {
 const hostname = window.location.hostname;
 const serverAddress = window.location.href;
 const backendPort = 5000;
-var u = process.env.UNITS;
+var u = process.env.REACT_APP_UNITS;
 const handleFileUpload = async (file, setResults) => {
   const formData = new FormData();
   formData.append("file", file);
@@ -105,7 +105,7 @@ const handleFileUpload = async (file, setResults) => {
 const fetchWeatherData = async (city) => {
   
   const apiKey = window.OWM_API_KEY || "9818a0c6454076d8184c24772aee1252";
-  const units = window.UNITS || "metric";
+  const units = process.env.REACT_APP_UNITS || "metric";
   u = units;
   const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${apiKey}`;
 
