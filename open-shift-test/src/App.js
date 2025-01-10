@@ -102,8 +102,8 @@ const handleFileUpload = async (file, setResults) => {
 };
 const fetchWeatherData = async (city) => {
   console.log(u);
-  const apiKey = process.env.OWM_API_KEY || "9818a0c6454076d8184c24772aee1252";
-  const units = process.env.UNITS || "metric";
+  const apiKey = window.OWM_API_KEY || "9818a0c6454076d8184c24772aee1252";
+  const units = window.UNITS || "metric";
   u = units;
   const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${apiKey}`;
 
