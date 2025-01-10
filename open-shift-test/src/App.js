@@ -9,11 +9,6 @@ const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
 console.log(process.env.REACT_APP_UNITS);
 
-//get openshift podname and address
-const podName = serverAddress.split("/").pop();
-console.log(podName);
-const podAddress = serverAddress + "/api/v1/namespaces/default/pods/" + podName;
-console.log(podAddress);
 
 function WheatChatbot() {
   const [userMessage, setUserMessage] = useState("");
@@ -86,6 +81,8 @@ const serverAddress = window.location.href;
 const backendPort = 5000;
 var u = process.env.REACT_APP_UNITS;
 const handleFileUpload = async (file, setResults) => {
+  
+
   const formData = new FormData();
   formData.append("file", file);
   try {
@@ -197,7 +194,11 @@ function App() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [results, setResults] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-
+  //get openshift podname and address
+  const podName = serverAddress.split("/").pop();
+  console.log(podName);
+  const podAddress = serverAddress + "/api/v1/namespaces/default/pods/" + podName;
+  console.log(podAddress);
   // Handle file change and preview the selected image
   const handleFileChange = (e) => {
     const file = e.target.files[0];
