@@ -11,6 +11,18 @@ import "slick-carousel/slick/slick-theme.css";
 const genAI = new GoogleGenerativeAI("AIzaSyAd1ZtKcvtXLRywmTsvgT8HpM5tjTV2AJ4"); // Replace with your actual API key
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
+const PodInfo = () => {
+  const podName = process.env.REACT_APP_POD_NAME || 'Pod name not available';
+  const podAddress = process.env.REACT_APP_POD_ADDRESS || 'Pod address not available';
+
+  return (
+    <div>
+      <h2>Pod Information</h2>
+      <p><strong>Pod Name:</strong> {podName}</p>
+      <p><strong>Pod Address:</strong> {podAddress}</p>
+    </div>
+  );
+};
 
 const ImageCarousel = () => {
   const mediaItems = [
@@ -51,7 +63,7 @@ const ImageCarousel = () => {
                 src={item.src}
                 alt={item.alt}
                 className="wheat-growth-cycle-image"
-                style={{ width: "100%", height: "auto" }}
+                style={{ width: "70%", height: "70%" ,position: "center",display: "block",marginLeft: "auto",marginRight: "auto"}}
               />
             ) : (
               <iframe
@@ -322,7 +334,6 @@ function App() {
         {/* Columns Section */}
         <div className="columns">
           <div className="left-column">
-            <WeatherSection />
             <div className="upload-section">
               <h2>⬇️ Upload an image to detect wheat plant diseases</h2>
               {imagePreview && (
@@ -370,6 +381,7 @@ function App() {
             </div>
           </div>
           <div className="right-column">
+            <WeatherSection />
             <div className="diseases-table">
               <h2 className="table-title">🌾 Wheat Disease Symptoms</h2>
               <table>
@@ -406,10 +418,10 @@ function App() {
       </main>
 
       <footer className="app-footer">
-        <p>Powered by Machine Learning</p>
-        <p>
-          Running on host: {hostname} ({serverAddress})
-        </p>
+        <p>© 2021 Wheat Disease Detection</p>
+        <p>Powered by Openshift</p>
+        <PodInfo />
+        <p>Made with love 💕 by <a href="https://github.com/Amal146/ML-Reactjs-Openshift-Project.git">Amal Jawahdou</a></p>
       </footer>
     </div>
   );
