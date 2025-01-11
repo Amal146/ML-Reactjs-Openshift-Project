@@ -14,8 +14,6 @@ RUN npm install
 
 COPY . .
 
-ARG POD_NAME
-ENV REACT_APP_POD_NAME=$POD_NAME
 # Build the React app
 RUN npm run build
 
