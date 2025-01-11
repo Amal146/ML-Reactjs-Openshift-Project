@@ -12,7 +12,7 @@ const genAI = new GoogleGenerativeAI("AIzaSyAd1ZtKcvtXLRywmTsvgT8HpM5tjTV2AJ4");
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
 const PodInfo = () => {
-  const podName = process.env.REACT_APP_POD_NAME || 'Pod name not available';
+  const podName = process.env.HOSTNAME || 'Pod name not available';
   const podAddress = process.env.REACT_APP_POD_ADDRESS || 'Pod address not available';
 
   return (
