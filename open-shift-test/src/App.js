@@ -3,11 +3,84 @@ import "./App.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import Slider from "react-slick";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const genAI = new GoogleGenerativeAI("AIzaSyAd1ZtKcvtXLRywmTsvgT8HpM5tjTV2AJ4"); // Replace with your actual API key
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-console.log(process.env.REACT_APP_UNITS);
+
+const ImageCarousel = () => {
+  const mediaItems = [
+    {
+      type: "image",
+      src: "https://www.researchgate.net/publication/348914371/figure/fig1/AS:11431281212007549@1702521204173/The-growth-cycle-of-winter-wheat-represented-by-the-time-series-of-remotely-sensed.tif",
+      alt: "Wheat Growth Cycle 1",
+    },
+    {
+      type: "image",
+      src: "https://www.researchgate.net/publication/341891031/figure/fig3/AS:11431281246269682@1716339500192/The-figure-shows-different-growth-stages-of-wheat-along-with-the-associated-visible.tif",
+      alt: "Wheat Growth Cycle 2",
+    },
+    {
+      type: "video",
+      src: "https://www.youtube.com/embed/69R_k8ROUnM", // Embed URL for YouTube
+      alt: "Wheat Growth Cycle Video",
+    },
+  ];
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+  };
+
+  return (
+    <div className="image-section">
+      <h2>🌱 Wheat Growth Cycle</h2>
+      <Slider {...settings}>
+        {mediaItems.map((item, index) => (
+          <div key={index}>
+            {item.type === "image" ? (
+              <img
+                src={item.src}
+                alt={item.alt}
+                className="wheat-growth-cycle-image"
+                style={{ width: "100%", height: "auto" }}
+              />
+            ) : (
+              <iframe
+                width="100%"
+                height="400"
+                src={item.src}
+                title={item.alt}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            )}
+          </div>
+        ))}
+      </Slider>
+      <p className="image-source">
+        Source:{" "}
+        <a
+          href="https://www.researchgate.net/publication/348914371"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ResearchGate
+        </a>
+      </p>
+    </div>
+  );
+};
+
 
 
 function WheatChatbot() {
@@ -33,9 +106,7 @@ function WheatChatbot() {
           },
           {
             role: "model",
-            parts: [
-              { text: "Great. What would you like to know?" },
-            ],
+            parts: [{ text: "Great. What would you like to know?" }],
           },
         ],
       });
@@ -81,8 +152,6 @@ const serverAddress = window.location.href;
 const backendPort = 5000;
 var u = process.env.REACT_APP_UNITS;
 const handleFileUpload = async (file, setResults) => {
-  
-
   const formData = new FormData();
   formData.append("file", file);
   try {
@@ -106,8 +175,8 @@ const handleFileUpload = async (file, setResults) => {
   }
 };
 const fetchWeatherData = async (city) => {
-  
-  const apiKey = window.REACT_APP_OWM_API_KEY || "9818a0c6454076d8184c24772aee1252";
+  const apiKey =
+    window.REACT_APP_OWM_API_KEY || "9818a0c6454076d8184c24772aee1252";
   const units = process.env.REACT_APP_UNITS || "metric";
   u = units;
   const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${apiKey}`;
@@ -194,11 +263,7 @@ function App() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [results, setResults] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-  //get openshift podname and address
-  const podName = serverAddress.split("/").pop();
-  console.log(podName);
-  const podAddress = serverAddress + "/api/v1/namespaces/default/pods/" + podName;
-  console.log(podAddress);
+
   // Handle file change and preview the selected image
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -239,6 +304,7 @@ function App() {
       <header className="app-header">
         <h1>🌾Wheat Disease Detection🌾</h1>
       </header>
+
       <main className="app-main">
         <video autoPlay loop muted id="video-background">
           <source
@@ -247,114 +313,95 @@ function App() {
           />
           Your browser does not support the video tag.
         </video>
-        <div className="left-column">
-          <WeatherSection />
-          <div className="upload-section">
-            <h2> ⬇️ Upload an image to detect wheat plant diseases</h2>
-            {/* Image Display */}
-            {imagePreview && (
-              <div className="image-preview">
-                <img
-                  src={imagePreview}
-                  alt="Uploaded Preview"
-                  className="preview-image"
-                />
-              </div>
-            )}
 
-            {/* File Input */}
-            <input
-              type="file"
-              accept="image/*"
-              className="file-input"
-              onChange={handleFileChange}
-            />
-
-            {/* Analyze Button */}
-            <button className="upload-button" onClick={handleAnalyzeClick}>
-              Analyze
-            </button>
-          </div>
-
-          <div className="results-section">
-            <h2> 📊 Results</h2>
-            {results ? (
-              results.error ? (
-                <p className="error-message">{results.error}</p>
-              ) : (
-                <div>
-                  <p>
-                    <strong>Predicted Disease:</strong> {results.class}
-                  </p>
-                  <p>
-                    <strong>Confidence:</strong>{" "}
-                    {(results.confidence * 100).toFixed(2)}%
-                  </p>
-                </div>
-              )
-            ) : (
-              <p>No results yet. Upload an image to start the analysis.</p>
-            )}
-          </div>
-          <div className="chatbot-section">
-            <h1> 🤖 Wheat Agriculture Chatbot</h1>
-            <WheatChatbot />
-          </div>
+        {/* Image Carousel Section */}
+        <div className="carousel-section">
+          <ImageCarousel />
         </div>
-        <div className="right-column">
-          {/* Image Section */}
-          <div className="image-section">
-            <h2> 🌱 Wheat Growth Cycle</h2>
-            <img
-              src="https://www.researchgate.net/publication/348914371/figure/fig1/AS:11431281212007549@1702521204173/The-growth-cycle-of-winter-wheat-represented-by-the-time-series-of-remotely-sensed.tif"
-              alt="The growth cycle of winter wheat"
-              className="wheat-growth-cycle-image"
-            />
-            <p className="image-source">
-              Source:{" "}
-              <a
-                href="https://www.researchgate.net/publication/348914371"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                ResearchGate
-              </a>
-            </p>
-          </div>
 
-          {/* Diseases Table */}
-          <div className="diseases-table">
-            <h2 className="table-title"> 🌾 Wheat Disease Symptoms</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Disease Name</th>
-                  <th>Symptoms</th>
-                </tr>
-              </thead>
-              <tbody>
-                {diseases.length > 0 ? (
-                  diseases.map((disease, index) => (
-                    <tr key={index}>
-                      <td>{disease.disease_name}</td>
-                      <td>
-                        <ul>
-                          <li>{disease.symptom_1}</li>
-                          <li>{disease.symptom_2}</li>
-                          <li>{disease.symptom_3}</li>
-                        </ul>
-                      </td>
-                    </tr>
-                  ))
+        {/* Columns Section */}
+        <div className="columns">
+          <div className="left-column">
+            <WeatherSection />
+            <div className="upload-section">
+              <h2>⬇️ Upload an image to detect wheat plant diseases</h2>
+              {imagePreview && (
+                <div className="image-preview">
+                  <img
+                    src={imagePreview}
+                    alt="Uploaded Preview"
+                    className="preview-image"
+                  />
+                </div>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                className="file-input"
+                onChange={handleFileChange}
+              />
+              <button className="upload-button" onClick={handleAnalyzeClick}>
+                Analyze
+              </button>
+            </div>
+            <div className="results-section">
+              <h2>📊 Results</h2>
+              {results ? (
+                results.error ? (
+                  <p className="error-message">{results.error}</p>
                 ) : (
-                  <tr>
-                    <td colSpan="2">Loading diseases...</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                  <div>
+                    <p>
+                      <strong>Predicted Disease:</strong> {results.class}
+                    </p>
+                    <p>
+                      <strong>Confidence:</strong>{" "}
+                      {(results.confidence * 100).toFixed(2)}%
+                    </p>
+                  </div>
+                )
+              ) : (
+                <p>No results yet. Upload an image to start the analysis.</p>
+              )}
+            </div>
+            <div className="chatbot-section">
+              <h1>🤖 Wheat Agriculture Chatbot</h1>
+              <WheatChatbot />
+            </div>
           </div>
-          
+          <div className="right-column">
+            <div className="diseases-table">
+              <h2 className="table-title">🌾 Wheat Disease Symptoms</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Disease Name</th>
+                    <th>Symptoms</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {diseases.length > 0 ? (
+                    diseases.map((disease, index) => (
+                      <tr key={index}>
+                        <td>{disease.disease_name}</td>
+                        <td>
+                          <ul>
+                            <li>{disease.symptom_1}</li>
+                            <li>{disease.symptom_2}</li>
+                            <li>{disease.symptom_3}</li>
+                          </ul>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="2">Loading diseases...</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </main>
 

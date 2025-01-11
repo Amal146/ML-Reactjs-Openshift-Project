@@ -39,11 +39,14 @@ body {
   z-index: -1; 
 }
 .app-main {
-  display: flex;
+  position: relative;
   justify-content: space-between;
   padding: 20px;
 }
-
+.columns {
+  display: flex;
+  justify-content: space-between;
+}
 .upload-section {
   width: 100%;
   height: 400px;
@@ -79,6 +82,10 @@ body {
   background-color: #8eb929ba;
 }
 
+.carousel-section {
+  margin-bottom: 20px;
+}
+
 .results-section {
   padding: 5px;
   width: 100%;
@@ -99,6 +106,11 @@ body {
   color: white;
   text-align: center;
   padding: 10px;
+}
+
+iframe {
+  max-width: 100%;
+  height: 400px; /* Adjust height as needed */
 }
 
 .diseases-table {
@@ -183,27 +195,23 @@ ul li {
 }
 
 .image-section {
+  width: 50%;
+  margin: auto;
   text-align: center;
-  padding: 8px;
-  border-radius: 8px;
-  margin-bottom: 20px;
   background-color:  rgb(255, 255, 255,  0.562);
 }
 
 .wheat-growth-cycle-image {
-  max-width: 100%;
-  height: auto;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin: 5px;
-  padding: 5px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .image-source {
-  margin-top: 5px;
-  font-size: 14px;
-  color: #555;
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: gray;
 }
+
 
 .image-source a {
   color: #007bff;
