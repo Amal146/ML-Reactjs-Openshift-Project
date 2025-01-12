@@ -11,16 +11,7 @@ import "slick-carousel/slick/slick-theme.css";
 const genAI = new GoogleGenerativeAI("AIzaSyAd1ZtKcvtXLRywmTsvgT8HpM5tjTV2AJ4"); // Replace with your actual API key
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-const PodInfo = () => {
-  const podName = process.env.REACT_APP_POD_NAME || 'Pod name not available';
 
-  return (
-    <div>
-      <h2>Pod Information</h2>
-      <p><strong>Pod Name:</strong> {podName}</p>
-    </div>
-  );
-};
 
 const ImageCarousel = () => {
   const mediaItems = [
@@ -418,7 +409,7 @@ function App() {
       <footer className="app-footer">
         <p>© 2021 Wheat Disease Detection</p>
         <p>Powered by Openshift</p>
-        <PodInfo />
+       
         <p>Made with love 💕 by <a href="https://github.com/Amal146/ML-Reactjs-Openshift-Project.git">Amal Jawahdou</a></p>
       </footer>
     </div>
