@@ -1,7 +1,7 @@
 
 # **🌾 Wheat Prediction and Management App** 🌾
 
-![Wheat Prediction Banner](https://via.placeholder.com/1200x300.png?text=Wheat+Prediction+App)
+!(https://via.placeholder.com/1200x300.png?text=Wheat+Prediction+App)
 
 ---
 
