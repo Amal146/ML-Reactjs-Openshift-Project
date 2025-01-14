@@ -92,6 +92,7 @@ cd wheat-prediction-app
   ```bash
   npm install
 
+  ```
   2. Run the frontend server:
 
   ```bash
@@ -101,22 +102,8 @@ cd wheat-prediction-app
 
 ## **📡 API Endpoints**
 
-- **/api/predict**:  
-  Predicts the disease risk based on current weather data.
-  
-  **Method**: POST  
-  **Payload**: { "location": "city_name" }  
-
-- **/api/weather**:  
-  Fetches the latest weather data for disease risk assessment.
-  
-  **Method**: GET  
-  **Params**: { "location": "city_name" }
-
-- **/api/stages**:  
-  Provides the lifecycle stages of wheat and corresponding care instructions.
-  
-  **Method**: GET  
+- **/predict**:  
+  Predicts the disease risk based on current weather data
 
 ---
 
