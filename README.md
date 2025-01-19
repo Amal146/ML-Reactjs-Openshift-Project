@@ -55,11 +55,10 @@ The app's goal is to revolutionize agriculture 🌍 with AI-driven insights for 
 ### 1. **Clone the Repository** 🖥️
 
 ```bash
-git clone https://github.com/your-username/wheat-prediction-app.git
-cd wheat-prediction-app
+git clone https://github.com/Amal146/ML-Reactjs-Openshift-Project.git
 ```
 
-### 2. **Backend Setup** ⚙️
+### 2. **ML Flask App Setup** ⚙️
 
 - **Prerequisites**: 
   - Python 3.x 🐍
@@ -69,10 +68,11 @@ cd wheat-prediction-app
   1. Install required dependencies:
   
   ```bash
+  cd wheat-disease-detection
   pip install -r requirements.txt
   ```
 
-  2. Set up the OpenWeatherMap API by creating an account and adding your API key to the environment variables.
+  2. Set up the OpenWeatherMap API by creating an account and adding your API key to the environment variable.
 
   3. Run the backend server:
   
@@ -80,7 +80,7 @@ cd wheat-prediction-app
   python app.py
   ```
 
-### 3. **Frontend Setup** 💻
+### 3. **Frontend & DB Backend Setup** 💻
 
 - **Prerequisites**: 
   - Node.js and npm installed ⚡
@@ -92,6 +92,7 @@ cd wheat-prediction-app
   ```bash
   npm install
 
+  ```
   2. Run the frontend server:
 
   ```bash
@@ -101,22 +102,8 @@ cd wheat-prediction-app
 
 ## **📡 API Endpoints**
 
-- **/api/predict**:  
-  Predicts the disease risk based on current weather data.
-  
-  **Method**: POST  
-  **Payload**: { "location": "city_name" }  
-
-- **/api/weather**:  
-  Fetches the latest weather data for disease risk assessment.
-  
-  **Method**: GET  
-  **Params**: { "location": "city_name" }
-
-- **/api/stages**:  
-  Provides the lifecycle stages of wheat and corresponding care instructions.
-  
-  **Method**: GET  
+- **/predict**:  
+  Predicts the disease risk based on current weather data
 
 ---
 
