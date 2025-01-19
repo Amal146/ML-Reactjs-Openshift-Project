@@ -288,7 +288,7 @@ function App() {
 
   useEffect(() => {
     // Fetch data from the backend
-    fetch("http://backend01-maythistime.apps.eu46r.prod.ole.redhat.com/")
+    fetch("http://backend0-maythistime.apps.eu46r.prod.ole.redhat.com/")
       .then((response) => response.json())
       .then((data) => {
         setDiseases(data.diseases);
