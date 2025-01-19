@@ -1,4 +1,4 @@
-FROM quay.io/python:3.10-slim
+FROM python:3.10
 
 ENV TF_ENABLE_ONEDNN_OPTS=0
 
