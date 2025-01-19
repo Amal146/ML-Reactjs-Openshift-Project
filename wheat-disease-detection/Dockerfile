@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.10-slim
 
 ENV TF_ENABLE_ONEDNN_OPTS=0
 
