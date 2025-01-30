@@ -36,7 +36,7 @@ class_labels = [
 
 @app.route("/")
 def hello_world():
-    return "Hello, World!"
+    return "Hello, Flask Python Wheat Disease Prediction App!"
 
 @app.route('/predict', methods=['POST'])
 def predict():
